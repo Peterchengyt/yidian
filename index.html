@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>一笔连成画 - Beta Desgin</title>
+<title>一笔连成画</title>
 <style>
   :root {
     --bg-color: #F5F5F7;
@@ -196,18 +196,21 @@ function getDifficultyInfo(level) {
 function generateLevel(level) {
   let w, h, targetN;
   if (level <= 34) {
-    const t=(level-1)/33; w=5+Math.round(t*2); h=5+Math.round(t*1);
-    targetN=Math.round((w*h)*(0.70+t*0.10));
+    // 超高级: 7x7 → 9x8, fill 78→88%
+    const t=(level-1)/33; w=7+Math.round(t*2); h=7+Math.round(t*1);
+    targetN=Math.round((w*h)*(0.78+t*0.10));
   } else if (level <= 67) {
-    const t=(level-35)/32; w=7+Math.round(t*1); h=7+Math.round(t*1);
-    targetN=Math.round((w*h)*(0.80+t*0.08));
+    // 史诗级: 9x8 → 10x9, fill 88→93%
+    const t=(level-35)/32; w=9+Math.round(t*1); h=8+Math.round(t*1);
+    targetN=Math.round((w*h)*(0.88+t*0.05));
   } else {
-    const t=(level-68)/32; w=8+Math.round(t*2); h=8+Math.round(t*1);
-    targetN=Math.round((w*h)*(0.88+t*0.08));
+    // 地狱级: 10x9 → 12x10, fill 93→98%
+    const t=(level-68)/32; w=10+Math.round(t*2); h=9+Math.round(t*1);
+    targetN=Math.round((w*h)*(0.93+t*0.05));
   }
   targetN=Math.min(targetN,w*h);
   let bestPath=[];
-  const attempts=level>67?1200:level>34?800:500;
+  const attempts=level>67?2000:level>34?1500:1000;
   for(let attempt=0;attempt<attempts;attempt++){
     let sx=Math.floor(Math.random()*w),sy=Math.floor(Math.random()*h);
     let tempPath=[{x:sx,y:sy}],visited=new Set([`${sx},${sy}`]);
